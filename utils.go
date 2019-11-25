@@ -12,7 +12,7 @@ type Logdata struct {
 }
 
 // MakeLogEntry using with logrus
-func MakeLogEntry(c echo.Context, l *Logdata) *log.Entry {
+func (lg *Logdata) MakeLogEntry(c echo.Context, l *Logdata) *log.Entry {
 
 	if c == nil && l == nil {
 		return log.WithFields(log.Fields{
