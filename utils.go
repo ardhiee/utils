@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/labstack/echo"
@@ -12,7 +13,7 @@ type Logdata struct {
 }
 
 // MakeLogEntry using with logrus
-func (lg *Logdata) MakeLogEntry(c echo.Context, l *Logdata) *log.Entry {
+func MakeLogEntry(c echo.Context, l *Logdata) *log.Entry {
 
 	if c == nil && l == nil {
 		return log.WithFields(log.Fields{
@@ -32,4 +33,8 @@ func (lg *Logdata) MakeLogEntry(c echo.Context, l *Logdata) *log.Entry {
 		"uri":       c.Request().URL.String(),
 		"ip":        c.Request().RemoteAddr,
 	})
+}
+
+func JustTest(l Logdata) {
+	fmt.Println(l)
 }
