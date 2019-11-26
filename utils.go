@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"crypto/sha256"
 	"fmt"
 	"time"
 
@@ -8,6 +9,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// Logdata struct for logging
 type Logdata struct {
 	RequestID string
 }
@@ -33,6 +35,17 @@ func MakeLogEntry(c echo.Context, l *Logdata) *log.Entry {
 		"uri":       c.Request().URL.String(),
 		"ip":        c.Request().RemoteAddr,
 	})
+}
+
+// HashPasswordWithSalt will hash your plain password
+func HashPasswordWithSalt(plainPassword string) string {
+	salt := fmt.Sprintf("%d", time.Now().UnixNano())
+	saltedText := fmt.Sprintf("text: '%s', salt: %s", plainPassword, salt)
+	s := sha256.New()
+	s.Write([]byte(saltedText))
+	encrypted := s.Sum(nil)
+	encryptedPassword := fmt.Sprintf("%x", encrypted)
+	return encryptedPassword
 }
 
 func JustTest(l Logdata) {
