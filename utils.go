@@ -38,16 +38,11 @@ func MakeLogEntry(c echo.Context, l *Logdata) *log.Entry {
 }
 
 // HashPasswordWithSalt will hash your plain password
-func HashPasswordWithSalt(plainPassword string) string {
-	salt := fmt.Sprintf("%d", time.Now().UnixNano())
+func HashPasswordWithSalt(plainPassword string, salt string) (encryptedPassword string) {
 	saltedText := fmt.Sprintf("text: '%s', salt: %s", plainPassword, salt)
 	s := sha256.New()
 	s.Write([]byte(saltedText))
 	encrypted := s.Sum(nil)
-	encryptedPassword := fmt.Sprintf("%x", encrypted)
+	encryptedPassword = fmt.Sprintf("%x", encrypted)
 	return encryptedPassword
-}
-
-func JustTest(l Logdata) {
-	fmt.Println(l)
 }
